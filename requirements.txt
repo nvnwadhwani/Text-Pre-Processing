@@ -1,0 +1,9 @@
+streamlit
+pandas
+matplotlib
+neattext
+nltk
+gensim
+spacy
+wordcloud
+seaborn
