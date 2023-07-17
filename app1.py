@@ -8,6 +8,7 @@ from wordcloud import WordCloud
 
 nltk.download('stopwords')
 nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')  # Added this line
 
 # Text Downloader
 import base64
