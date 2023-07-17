@@ -164,7 +164,7 @@ def main():
 
             st.dataframe(df[new_columns])
 
-        make_downloadable(df[new_columns])
+            make_downloadable(df[new_columns])
 
 
 if __name__ == '__main__':
