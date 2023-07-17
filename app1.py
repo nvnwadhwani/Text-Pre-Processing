@@ -120,49 +120,49 @@ def main():
     else:
         csv_file = st.file_uploader("Upload CSV file", type=['csv'])
 
-    if csv_file is not None:
-        file_details = {"Filename": csv_file.name,
-                        "Filesize": csv_file.size,
-                        "Filetype": csv_file.type}
-        st.write(file_details)
+        if csv_file is not None:
+            file_details = {"Filename": csv_file.name,
+                            "Filesize": csv_file.size,
+                            "Filetype": csv_file.type}
+            st.write(file_details)
 
-        df = pd.read_csv(csv_file)
-        st.dataframe(df)
+            df = pd.read_csv(csv_file)
+            st.dataframe(df)
 
-        preprocess_columns = st.multiselect("Select Columns to Preprocess", df.columns)
-        normalize_case = st.checkbox("Normalize Case (Lower Case)")
-        clean_stopwords = st.checkbox("Stopwords Removal")
-        clean_punctuations = st.checkbox("Punctuations Removal")
-        clean_special_char = st.checkbox("Special Characters Removal")
-        clean_numbers = st.checkbox("Numbers Removal")
-        clean_url = st.checkbox("URL Removal")
+            preprocess_columns = st.multiselect("Select Columns to Preprocess", df.columns)
+            normalize_case = st.checkbox("Normalize Case (Lower Case)")
+            clean_stopwords = st.checkbox("Stopwords Removal")
+            clean_punctuations = st.checkbox("Punctuations Removal")
+            clean_special_char = st.checkbox("Special Characters Removal")
+            clean_numbers = st.checkbox("Numbers Removal")
+            clean_url = st.checkbox("URL Removal")
 
-        new_columns = []
-        for column in preprocess_columns:
-            new_column = f"preprocessed_{column}"
-            new_columns.append(new_column)
+            new_columns = []
+            for column in preprocess_columns:
+                new_column = f"preprocessed_{column}"
+                new_columns.append(new_column)
 
-            processed_data = df[column].astype(str)
-            if normalize_case:
-                processed_data = processed_data.str.lower()
+                processed_data = df[column].astype(str)
+                if normalize_case:
+                    processed_data = processed_data.str.lower()
 
-            if clean_stopwords:
-                tokens = processed_data.apply(word_tokenize)
-                stopwords_list = set(stopwords.words('english'))
-                processed_data = tokens.apply(lambda x: " ".join([token for token in x if token.lower() not in stopwords_list]))
+                if clean_stopwords:
+                    tokens = processed_data.apply(word_tokenize)
+                    stopwords_list = set(stopwords.words('english'))
+                    processed_data = tokens.apply(lambda x: " ".join([token for token in x if token.lower() not in stopwords_list]))
 
-            if clean_numbers:
-                processed_data = processed_data.str.replace(r'\d+', '')
+                if clean_numbers:
+                    processed_data = processed_data.str.replace(r'\d+', '')
 
-            if clean_url:
-                processed_data = processed_data.str.replace("http://", "").replace("https://", "")
+                if clean_url:
+                    processed_data = processed_data.str.replace("http://", "").replace("https://", "")
 
-            if clean_punctuations or clean_special_char:
-                processed_data = processed_data.str.replace(r'[^\w\s]+', '')
+                if clean_punctuations or clean_special_char:
+                    processed_data = processed_data.str.replace(r'[^\w\s]+', '')
 
-            df[new_column] = processed_data
+                df[new_column] = processed_data
 
-        st.dataframe(df[new_columns])
+            st.dataframe(df[new_columns])
 
         make_downloadable(df[new_columns])
 
